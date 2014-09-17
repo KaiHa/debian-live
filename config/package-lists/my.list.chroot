@@ -1,7 +1,8 @@
+aptitude
 bash-completion
 live-boot
 live-boot-initramfs-tools
 live-config
 live-config-systemd
-task-gnome-desktop
-task-laptop
+vim
+vim-gnome

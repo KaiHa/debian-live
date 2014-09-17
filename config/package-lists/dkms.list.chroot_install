@@ -1,0 +1,13 @@
+pciutils
+
+# broadcom-sta
+broadcom-sta-dkms
+
+# nvidia-graphics-drivers
+nvidia-kernel-dkms
+nvidia-glx
+xserver-xorg-video-nvidia
+nvidia-settings
+nvidia-xconfig
+nvidia-vdpau-driver
+vdpau-va-driver
