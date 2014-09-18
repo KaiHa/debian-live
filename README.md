@@ -26,19 +26,32 @@ $ sudo dd bs=4096 if=live-image*.hybrid.iso of=/dev/sdX
 Persistence
 -----------
 
-If you want a persistent /home folder you can create in the remaining space of
-the USB thumb drive an extra partition with the label `persistence`. Add to
-this partition a file `persistence.conf` with the following content.
-```
-/home union
-```
-
 Persistence is enabled by default. Whenever you want to boot with persistence
 disabled, you have to remove `persistence` of the commandline in the boot
 menu.
+
+For persistence to work you need an persistence partition with an
+persistence.conf file. For example, if you want a persistent /home folder you
+can create in the remaining space of the USB thumb drive an extra partition
+with the label `persistence`. Add to this partition a file `persistence.conf`
+with the following content.
+```
+/home union
+```
 
 User and password
 -----------------
 
 Name: `user`
 Password: `live`
+
+Other resources
+---------------
+
+More and much better configurations can be found at the [git
+repository](http://live-systems.org/gitweb/?p=live-images.git) of the
+live-build project itself.
+
+Ready-made images are also available at [live-system.org](http://live-systems.org/cdimage/).
+Sadly there are not always images available of the sid/testing distribution.
+
