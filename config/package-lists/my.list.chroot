@@ -1,5 +1,6 @@
 aptitude
 bash-completion
+gparted
 live-boot
 live-boot-initramfs-tools
 live-config
