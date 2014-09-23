@@ -4,9 +4,14 @@
 -- by Windows. Therefore it will first remove the existing Live-Linux partition
 -- then create a new partition behind the Live-Linux partition. And then will
 -- recreate the Live-Linux partition with the same geometry as before.
+--
+-- The resulting layout looks something like this:
+--   sdx2  live-linux   ---    ---
+--   sdx3  persistence  ext4   ~ 1 GB
+--   sdx1  windata      fat32  (the remaining space)
 
 import Control.Applicative   ((<$>))
-import Control.Monad         (void)
+import Control.Monad         (void, when)
 import Data.String.Utils     (split)
 import System.Environment    (getArgs)
 import System.Process        (readProcess)
@@ -25,27 +30,34 @@ getDiskLayout device = do
     return ( toDisk $ out !! 1
            , map toPart $ drop 2 out
            )
-    where readS = read . init
+    where readS a
+              | last a == 's' = read $ init a
           toPart (number : start : end : _ : fs : _) =
               Partition (read number) (readS start) (readS end) fs
-          toDisk (_ : size : _ : _ : _ : partTable :_) =
-              Disk device (readS size) partTable
+          toDisk (_ : secCnt : _ : secSize : _ : partTable : _) =
+              Disk device (readS secCnt) (read secSize) partTable
 
 addPartition :: Disk -> Partition -> IO ()
 addPartition disk partition = do
+    when toSmall $ error "error: target device to small"
     _ <- parted device ["rm", "1"]
-    _ <- parted device ["mkpart", "primary", "fat32", start1, end1]
-    _ <- parted device ["mkpart", "primary", fs2,     start2, end2]
+    _ <- parted device ["mkpart", "primary", "fat32", show start1, show end1]
+    _ <- parted device ["mkpart", "primary", fs2,     show start2, show end2]
+    _ <- parted device ["mkpart", "primary", "ext4",  show start3, show end3]
     _ <- parted device ["set", "2", "boot", "on"]
     _ <- parted device ["set", "2", "hidden", "on"]
     mkfs (device ++ "1") "vfat" ["-F", "32", "-n", "WINDATA"]
-    addPersistence $ device ++ "1"
+    mkfs (device ++ "3") "ext4" ["-L", "persistence"]
+    addPersistence $ device ++ "3"
     where device = devicePath disk
-          start1 = show $ (partEnd partition) + 1
-          end1   = show $ (diskSize disk) - 1
-          start2 = show $ partStart partition
-          end2   = show $ partEnd partition
+          start2 = partStart partition
+          end2   = partEnd partition
+          start3 = end2 + 1
+          end3   = start3 + (10^9 `quot` (sectorSize disk))
+          start1 = end3 + 1
+          end1   = (sectorCount disk) - 1
           fs2    = fileSystem partition
+          toSmall = (end1 - start1) < (10^7 `quot` (sectorSize disk))
 
 
 parted:: String -> [String] -> IO String
@@ -60,17 +72,10 @@ addPersistence :: String -> IO ()
 addPersistence device = do
     mkdir ["-p", "./.mnt"]
     mount [device, "./.mnt"]
-    dd ["if=/dev/null", "bs=1", "count=0", "seek=1G", "of=./.mnt/persistence"]
-    mkfs "./.mnt/persistence" "ext4" ["-F"]
-    mkdir ["-p", "./.mnt2"]
-    mount ["-t", "ext4", "./.mnt/persistence", "./.mnt2"]
-    writeFile "./.mnt2/persistence.conf" "/home union\n"
-    umount ["./.mnt2"]
+    writeFile "./.mnt/persistence.conf" "/home union\n"
     umount ["./.mnt"]
-    return ()
     where mount  args = void $ readProcess "/bin/mount"  args ""
           umount args = void $ readProcess "/bin/umount" args ""
-          dd     args = void $ readProcess "/bin/dd" args ""
           mkdir  args = void $ readProcess "/bin/mkdir" args ""
 
 data Partition = Partition { partNumber :: Int
@@ -80,6 +85,7 @@ data Partition = Partition { partNumber :: Int
                            } deriving (Show)
 
 data Disk = Disk { devicePath     :: String
-                 , diskSize       :: Integer
+                 , sectorCount    :: Integer
+                 , sectorSize     :: Integer
                  , partitionTable :: String
                  } deriving (Show)
