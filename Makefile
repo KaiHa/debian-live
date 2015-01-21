@@ -8,9 +8,10 @@ build:
 # use lots of memory. You have been warned!
 fast-build:
 	mkdir -p $(tmp_dir)
-	sudo mount -t tmpfs -o size=8G  tmpfs $(tmp_dir)
+	sudo mount -t tmpfs -o size=9G  tmpfs $(tmp_dir)
 	sudo cp -r * $(tmp_dir)
 	cd $(tmp_dir) && sudo lb config && sudo lb build
+	-cp $(tmp_dir)/build.log .
 	cp $(tmp_dir)/live-image-*.hybrid.iso .
 	sudo umount $(tmp_dir)
 
