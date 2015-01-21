@@ -1,13 +1,7 @@
-aptitude
 bash-completion
-chromium
-flashplugin-nonfree
-gparted
 live-boot
 live-boot-initramfs-tools
 live-config
 live-config-systemd
-pepperflashplugin-nonfree
-tree
+user-setup
 vim
-vim-gnome

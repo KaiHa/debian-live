@@ -10,4 +10,7 @@ lb config noauto                                   \
 	--bootappend-live "boot=live persistence"  \
 	--linux-packages "linux-image"             \
 	--clean                                    \
+    --debian-installer false                   \
+    --debian-installer-gui false               \
+    --apt-recommends false                     \
 	"${@}"
