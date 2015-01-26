@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cat > /var/lib/AccountsService/users/user <<-END
+	[User]
+	Language=en_US.utf8
+	XSession=
+	Icon=
+	SystemAccount=false
+	END
