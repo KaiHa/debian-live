@@ -7,7 +7,7 @@ lb config noauto                                   \
 	--linux-flavours 686-pae                   \
 	--distribution jessie                      \
 	--archive-areas "main contrib non-free"    \
-	--bootappend-live "boot=live persistence vga=ask"  \
+	--bootappend-live "boot=live ip=eth0:10.9.8.7:255.0.0.0:: vga=ask"  \
 	--linux-packages "linux-image"             \
 	--clean                                    \
     --debian-installer false                   \
