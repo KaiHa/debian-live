@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=FixSettings
-GenericName=FixGnomeSettings
-Comment=This script fixes the gnome settings for live-cd usage
-Exec=/lib/live/bin/gnome-settings.sh
-Terminal=false
-Type=Application
