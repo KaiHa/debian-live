@@ -1,4 +1,5 @@
 bash-completion
+hwinfo
 live-boot
 live-boot-initramfs-tools
 live-config
