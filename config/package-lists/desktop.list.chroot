@@ -1,9 +1,10 @@
 task-gnome-desktop
 gdm3
+xorg
+xserver-xorg-video-vesa
+xserver-xorg-video-fbdev
+
 locales
 
 plymouth
 plymouth-x11
-
-#gstreamer-vaapi
-i965-va-driver
