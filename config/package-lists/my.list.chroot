@@ -7,3 +7,4 @@ live-config-systemd
 user-setup
 vim
 joe
+vsftpd
