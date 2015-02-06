@@ -5,7 +5,10 @@ Configuration for a Debian live system. With this configuration it should be
 possible to create a Debian live ISO-image on a current Debian jessie/testing
 system.
 
-You need the live-build tools. You can install them by this command:
+Building a CD
+-------------
+
+You need the *live-build* tools. You can install them by this command:
 ```
 $ aptitude install live-build
 ```
@@ -17,10 +20,24 @@ $ lb config
 $ sudo lb build
 ```
 
+Or simply by calling `make`.
+
 The resulting ISO can be dumped on a USB thumb drive. Be careful when doing this,
 if you give to `of=` the wrong device you may destroy data.
 ```
 $ sudo dd bs=4096 if=live-image*.hybrid.iso of=/dev/sdX
+```
+
+Speeding up successive builds
+-----------------------------
+
+If you want/need to build the image more than once, you can speed things up by installing *approx*. Here is what my `/etc/approx/approx.conf` looks like:
+```
+debian		http://ftp.de.debian.org/debian
+```
+And in `/etc/live/build.conf` I have added this line:
+```
+LB_MIRROR_BOOTSTRAP="http://localhost:9999/debian"
 ```
 
 Persistence
