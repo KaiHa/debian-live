@@ -1,5 +1,6 @@
 aptitude
 bash-completion
+bridge-utils
 chromium
 flashplugin-nonfree
 gparted
@@ -7,7 +8,9 @@ live-boot
 live-boot-initramfs-tools
 live-config
 live-config-systemd
+lshw
 pepperflashplugin-nonfree
 tree
 vim
 vim-gnome
+wireshark
