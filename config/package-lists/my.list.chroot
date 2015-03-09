@@ -9,6 +9,7 @@ live-boot-initramfs-tools
 live-config
 live-config-systemd
 lshw
+mdadm
 pepperflashplugin-nonfree
 tree
 vim
