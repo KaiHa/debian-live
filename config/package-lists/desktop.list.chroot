@@ -3,6 +3,7 @@ xorg
 xserver-xorg-video-vesa
 xserver-xorg-video-fbdev
 kdm
+policykit-1
 
 locales
 
