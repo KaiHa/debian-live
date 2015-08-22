@@ -10,4 +10,5 @@ lb config noauto                                   \
 	--bootappend-live "boot=live persistence"  \
 	--linux-packages "linux-image"             \
 	--clean                                    \
+ 	--firmware-chroot true                     \
 	"${@}"
