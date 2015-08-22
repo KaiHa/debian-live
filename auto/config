@@ -11,4 +11,5 @@ lb config noauto                                   \
 	--linux-packages "linux-image"             \
 	--clean                                    \
  	--firmware-chroot true                     \
+        --security true                            \
 	"${@}"
