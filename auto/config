@@ -10,4 +10,6 @@ lb config noauto                                   \
 	--bootappend-live "boot=live findiso=/boot/images/jessie.iso"  \
 	--linux-packages "linux-image"             \
 	--clean                                    \
+ 	--firmware-chroot true                     \
+        --security true                            \
 	"${@}"
