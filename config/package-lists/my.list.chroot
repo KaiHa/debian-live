@@ -3,6 +3,9 @@ bash-completion
 bridge-utils
 chromium
 flashplugin-nonfree
+gnupg-agent
+gnupg2
+gpa
 gparted
 live-boot
 live-boot-initramfs-tools
