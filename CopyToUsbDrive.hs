@@ -12,6 +12,7 @@
 --   sdx1  windata      fat32  (the remaining space)
 
 import Control.Applicative   ((<$>))
+import Control.Concurrent    (threadDelay)
 import Control.Monad         (void, when)
 import Data.String.Utils     (split)
 import System.Environment    (getArgs)
@@ -60,6 +61,7 @@ addPartition disk partition = do
     _ <- parted device ["mkpart", "primary", "ext4",  show start3, show end3]
     _ <- parted device ["set", "2", "boot", "on"]
     _ <- parted device ["set", "2", "hidden", "on"]
+    threadDelay $ 2*1000*1000
     mkfs (device ++ "1") "vfat" ["-F", "32", "-n", "WINDATA"]
     mkfs (device ++ "3") "ext4" ["-L", "persistence"]
     addPersistence $ device ++ "3"
