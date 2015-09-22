@@ -66,15 +66,16 @@ addPartition disk partition = do
     mkfs (device ++ "3") "ext4" ["-L", "persistence"]
     addPersistence $ device ++ "3"
     where
+        mbyte  = 10^6 `quot` (sectorSize disk)
         device = devicePath disk
         start2 = partStart partition
         end2   = partEnd partition
-        start3 = end2 + 1
-        end3   = start3 + (10^9 `quot` (sectorSize disk))
+        start3 = end2 + 200 * mbyte -- leave a 200 MB gap
+        end3   = start3 + 1000 * mbyte
         start1 = end3 + 1
         end1   = (sectorCount disk) - 1
         fs2    = fileSystem partition
-        toSmall = (end1 - start1) < (10^7 `quot` (sectorSize disk))
+        toSmall = (end1 - start1) < 10 * mbyte
 
 
 parted:: String -> [String] -> IO String
