@@ -2,5 +2,6 @@
 
 set -e
 
-chown -R user:user /home/user/.gnupg
+chown -R user:user /home/user/ && true
 rm /etc/xdg/autostart/gnome-keyring-gpg.desktop
+rm /etc/xdg/autostart/gnome-keyring-ssh.desktop
