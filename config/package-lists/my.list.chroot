@@ -2,11 +2,15 @@ aptitude
 bash-completion
 bridge-utils
 chromium
-flashplugin-nonfree
+emacs24
+emacs-goodies-el
+git
 gnupg-agent
 gnupg2
 gpa
 gparted
+haskell-mode
+haskell-platform
 live-boot
 live-boot-initramfs-tools
 live-config
