@@ -22,3 +22,24 @@ umount-tmpfs:
 	-sudo umount $(tmp_dir)/chroot/proc
 	-sudo umount $(tmp_dir)/chroot/sys
 	sudo umount $(tmp_dir)
+
+clean:
+	rm -rf .build/
+	rm -rf binary/
+	rm -rf cache/
+	rm -rf chroot/
+	rm -rf config/binary
+	rm -rf config/bootstrap
+	rm -rf config/build
+	rm -rf config/chroot
+	rm -rf config/common
+	rm -rf config/hooks/
+	rm -rf config/includes.bootstrap/
+	rm -rf config/includes.source/
+	rm -rf config/includes/
+	rm -rf config/source
+	rm -rf live-image-i386.contents
+	rm -rf live-image-i386.files
+	rm -rf live-image-i386.hybrid.iso
+	rm -rf live-image-i386.hybrid.iso.zsync
+	rm -rf live-image-i386.packages
