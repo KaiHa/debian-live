@@ -7,7 +7,7 @@ lb config noauto                                   \
 	--linux-flavours 686-pae                   \
 	--distribution jessie                      \
 	--archive-areas "main contrib non-free"    \
-	--bootappend-live "boot=live findiso=/boot/images/jessie.iso"  \
+	--bootappend-live "boot=live findiso=/images/jessie.iso"  \
 	--linux-packages "linux-image"             \
 	--clean                                    \
  	--firmware-chroot true                     \
