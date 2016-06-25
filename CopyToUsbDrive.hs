@@ -17,7 +17,7 @@ import Control.Monad         (void, when)
 import Data.Maybe            (fromJust)
 import Data.String.Utils     (split)
 import System.Environment    (getArgs)
-import System.Process        (readProcess)
+import System.Process        (readProcess, readProcessWithExitCode)
 
 main :: IO ()
 main = do
@@ -52,7 +52,7 @@ backupGeometry device = do
 
 getDiskLayout:: String -> IO (Disk, [Partition])
 getDiskLayout device = do
-    out <- map (split ":") <$> lines <$> parted device ["print"]
+    out <- map (split ":") <$> lines <$> parted' device ["print"]
     return ( toDisk $ out !! 1
            , map toPart $ drop 2 out
            )
@@ -107,6 +107,11 @@ addPartition oldGeom disk partition = do
 parted:: String -> [String] -> IO String
 parted device args =
     readProcess "/sbin/parted" (["-s", "-m", device, "unit", "s"] ++ args) ""
+
+parted':: String -> [String] -> IO String
+parted' device args = do
+    (_, stdout, _) <- readProcessWithExitCode "/sbin/parted" (["-s", "-m", device, "unit", "s"] ++ args) ""
+    return stdout
 
 mkfs:: String -> String -> [String] -> IO ()
 mkfs device fsType args =
