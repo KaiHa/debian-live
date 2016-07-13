@@ -18,6 +18,7 @@ live-config-systemd
 lshw
 mdadm
 pepperflashplugin-nonfree
+stalonetray
 tree
 vim
 vim-gnome
