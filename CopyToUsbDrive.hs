@@ -12,10 +12,12 @@
 --   sdx1  windata      fat32  (the remaining space)
 
 import Control.Applicative   ((<$>))
+import Control.Concurrent    (threadDelay)
 import Control.Monad         (void, when)
+import Data.Maybe            (fromJust)
 import Data.String.Utils     (split)
 import System.Environment    (getArgs)
-import System.Process        (readProcess)
+import System.Process        (readProcess, readProcessWithExitCode)
 
 main :: IO ()
 main = do
@@ -24,12 +26,13 @@ main = do
     putStrLn "Do you really want to continue? yes/[no]"
     isOk <- getLine
     when (isOk /= "yes") $ error "aborted by user"
+    oldGeom <- backupGeometry device
     putStrLn "Copy image to device ..."
     dd iso device
     sync
     putStrLn "Create extra partitions ..."
     (disk, partitions) <- getDiskLayout device
-    addPartition disk $ partitions !! 0
+    addPartition oldGeom disk $ partitions !! 0
     putStrLn "Done!"
     where
         dd iso device =
@@ -37,9 +40,19 @@ main = do
                 ["bs=4096", "if=" ++ iso ,"of=" ++ device] ""
         sync = void $ readProcess "/bin/sync" [] ""
 
+
+backupGeometry :: String -> IO (Maybe [Partition])
+backupGeometry device = do
+    (_, partitions) <- getDiskLayout device
+    return $ get partitions
+  where
+    get ps     | length ps < 3     = Nothing
+    get (p:ps) | partNumber p == 2 = Just ps
+               | otherwise         = Nothing
+
 getDiskLayout:: String -> IO (Disk, [Partition])
 getDiskLayout device = do
-    out <- map (split ":") <$> lines <$> parted device ["print"]
+    out <- map (split ":") <$> lines <$> parted' device ["print"]
     return ( toDisk $ out !! 1
            , map toPart $ drop 2 out
            )
@@ -51,8 +64,8 @@ getDiskLayout device = do
         toDisk (_ : secCnt : _ : secSize : _ : partTable : _) =
             Disk device (readS secCnt) (read secSize) partTable
 
-addPartition :: Disk -> Partition -> IO ()
-addPartition disk partition = do
+addPartition ::Maybe [Partition] -> Disk -> Partition -> IO ()
+addPartition oldGeom disk partition = do
     when toSmall $ error "error: target device to small"
     _ <- parted device ["rm", "1"]
     _ <- parted device ["mkpart", "primary", "fat32", show start1, show end1]
@@ -60,24 +73,45 @@ addPartition disk partition = do
     _ <- parted device ["mkpart", "primary", "ext4",  show start3, show end3]
     _ <- parted device ["set", "2", "boot", "on"]
     _ <- parted device ["set", "2", "hidden", "on"]
-    mkfs (device ++ "1") "vfat" ["-F", "32", "-n", "WINDATA"]
-    mkfs (device ++ "3") "ext4" ["-L", "persistence"]
-    addPersistence $ device ++ "3"
+    if reuseImpossible
+        then do
+            threadDelay $ 2*1000*1000
+            mkfs (device ++ "1") "vfat" ["-F", "32", "-n", "WINDATA"]
+            mkfs (device ++ "3") "ext4" ["-L", "persistence"]
+            addPersistence $ device ++ "3"
+        else putStrLn "Re-using existing partitions!"
     where
+        mbyte  = 10^6 `quot` (sectorSize disk)
         device = devicePath disk
         start2 = partStart partition
         end2   = partEnd partition
-        start3 = end2 + 1
-        end3   = start3 + (10^9 `quot` (sectorSize disk))
-        start1 = end3 + 1
-        end1   = (sectorCount disk) - 1
+        reuseImpossible = case oldGeom of
+                               Nothing -> True
+                               Just a  -> end2 >= partStart (head a)
+        start3 = if reuseImpossible
+                     then end2 + 200 * mbyte -- leave a 200 MB gap
+                     else partStart $ (fromJust oldGeom) !! 0
+        end3   = if reuseImpossible
+                     then start3 + 1000 * mbyte
+                     else partEnd $ (fromJust oldGeom) !! 0
+        start1 = if reuseImpossible
+                     then end3 + 1
+                     else partStart $ (fromJust oldGeom) !! 1
+        end1   = if reuseImpossible
+                     then (sectorCount disk) - 1
+                     else partEnd $ (fromJust oldGeom) !! 1
         fs2    = fileSystem partition
-        toSmall = (end1 - start1) < (10^7 `quot` (sectorSize disk))
+        toSmall = (end1 - start1) < 10 * mbyte
 
 
 parted:: String -> [String] -> IO String
 parted device args =
     readProcess "/sbin/parted" (["-s", "-m", device, "unit", "s"] ++ args) ""
+
+parted':: String -> [String] -> IO String
+parted' device args = do
+    (_, stdout, _) <- readProcessWithExitCode "/sbin/parted" (["-s", "-m", device, "unit", "s"] ++ args) ""
+    return stdout
 
 mkfs:: String -> String -> [String] -> IO ()
 mkfs device fsType args =

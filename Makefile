@@ -1,8 +1,17 @@
 tmp_dir := ./.build.tmp
+nitrokey_app := https://www.nitrokey.com/sites/default/files/app/nitrokey-app-0.2-debian-jessie-amd64.deb
 
-build:
+build: download
 	lb config
 	sudo lb build
+
+download: config/packages.chroot/nitrokey-app_0.2_amd64.deb
+	# VOID
+
+config/packages.chroot/nitrokey-app_%.deb:
+	cd config/packages.chroot &&  \
+	wget $(nitrokey_app) && \
+	dpkg-name *.deb
 
 # If it should go fast you can build the image in a tmpfs partition. This will
 # use lots of memory. You have been warned!
@@ -22,3 +31,28 @@ umount-tmpfs:
 	-sudo umount $(tmp_dir)/chroot/proc
 	-sudo umount $(tmp_dir)/chroot/sys
 	sudo umount $(tmp_dir)
+
+clean:
+	rm -rf .build/
+	rm -rf binary/
+	rm -rf build.log
+	rm -rf cache/
+	rm -rf chroot.files
+	rm -rf chroot.packages.install
+	rm -rf chroot.packages.live
+	rm -rf chroot/
+	rm -rf config/binary
+	rm -rf config/bootstrap
+	rm -rf config/build
+	rm -rf config/chroot
+	rm -rf config/common
+	rm -rf config/hooks/
+	rm -rf config/includes.bootstrap/
+	rm -rf config/includes.source/
+	rm -rf config/includes/
+	rm -rf config/source
+	rm -rf live-image-*.contents
+	rm -rf live-image-*.files
+	rm -rf live-image-*.hybrid.iso
+	rm -rf live-image-*.hybrid.iso.zsync
+	rm -rf live-image-*.packages

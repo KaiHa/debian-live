@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=NitrokeyApp
+GenericName=NitrokeyApp
+Comment=Start the Nitrokey Application
+Exec=/usr/bin/nitrokey-app
+Terminal=false
+Type=Application

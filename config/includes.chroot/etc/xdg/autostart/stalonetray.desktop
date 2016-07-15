@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=StAloneTray
+GenericName=StAloneTray
+Comment=Start the stand alone tray
+Exec=/usr/bin/stalonetray --geometry 3x1+0-0 --background black --window-type desktop
+Terminal=false
+Type=Application
