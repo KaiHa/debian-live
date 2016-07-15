@@ -7,7 +7,6 @@ emacs-goodies-el
 git
 gnupg-agent
 gnupg2
-gpa
 gparted
 haskell-mode
 haskell-platform
@@ -17,7 +16,10 @@ live-config
 live-config-systemd
 lshw
 mdadm
+pass
+pcscd
 pepperflashplugin-nonfree
+scdaemon
 stalonetray
 tree
 vim
