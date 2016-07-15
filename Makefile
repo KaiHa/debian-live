@@ -35,7 +35,11 @@ umount-tmpfs:
 clean:
 	rm -rf .build/
 	rm -rf binary/
+	rm -rf build.log
 	rm -rf cache/
+	rm -rf chroot.files
+	rm -rf chroot.packages.install
+	rm -rf chroot.packages.live
 	rm -rf chroot/
 	rm -rf config/binary
 	rm -rf config/bootstrap
@@ -47,8 +51,8 @@ clean:
 	rm -rf config/includes.source/
 	rm -rf config/includes/
 	rm -rf config/source
-	rm -rf live-image-i386.contents
-	rm -rf live-image-i386.files
-	rm -rf live-image-i386.hybrid.iso
-	rm -rf live-image-i386.hybrid.iso.zsync
-	rm -rf live-image-i386.packages
+	rm -rf live-image-*.contents
+	rm -rf live-image-*.files
+	rm -rf live-image-*.hybrid.iso
+	rm -rf live-image-*.hybrid.iso.zsync
+	rm -rf live-image-*.packages
