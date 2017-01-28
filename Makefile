@@ -1,17 +1,8 @@
 tmp_dir := ./.build.tmp
-nitrokey_app := https://www.nitrokey.com/sites/default/files/app/nitrokey-app-0.2-debian-jessie-amd64.deb
 
-build: download
+build:
 	lb config
 	sudo lb build
-
-download: config/packages.chroot/nitrokey-app_0.2_amd64.deb
-	# VOID
-
-config/packages.chroot/nitrokey-app_%.deb:
-	cd config/packages.chroot &&  \
-	wget $(nitrokey_app) && \
-	dpkg-name *.deb
 
 # If it should go fast you can build the image in a tmpfs partition. This will
 # use lots of memory. You have been warned!
