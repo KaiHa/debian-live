@@ -7,7 +7,7 @@ lb config noauto                               \
     --linux-flavours amd64                     \
     --distribution stretch                     \
     --archive-areas "main contrib non-free"    \
-    --bootappend-live "boot=live findiso=/images/jessie.iso"  \
+    --bootappend-live "boot=live findiso=/images/stretch.iso"  \
     --clean                                    \
     --firmware-chroot true                     \
     --security true                            \
