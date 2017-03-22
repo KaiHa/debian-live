@@ -2,14 +2,13 @@
 
 set -e
 
-lb config noauto                                   \
-	--architectures amd64                      \
-	--linux-flavours amd64                     \
-	--distribution jessie                      \
-	--archive-areas "main contrib non-free"    \
-	--bootappend-live "boot=live findiso=/images/jessie.iso"  \
-	--linux-packages "linux-image"             \
-	--clean                                    \
- 	--firmware-chroot true                     \
-	--security true                            \
-	"${@}"
+lb config noauto                               \
+    --architectures amd64                      \
+    --linux-flavours amd64                     \
+    --distribution stretch                     \
+    --archive-areas "main contrib non-free"    \
+    --bootappend-live "boot=live findiso=/images/jessie.iso"  \
+    --clean                                    \
+    --firmware-chroot true                     \
+    --security true                            \
+    "${@}"
