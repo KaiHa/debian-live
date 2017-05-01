@@ -1,15 +1,12 @@
 aptitude
 bash-completion
 bridge-utils
-chromium
 emacs24
 emacs-goodies-el
 git
 gnupg-agent
 gnupg2
 gparted
-haskell-mode
-haskell-platform
 live-boot
 live-boot-initramfs-tools
 live-config
@@ -24,5 +21,4 @@ stalonetray
 tree
 vim
 vim-gnome
-wireshark
 xul-ext-noscript
