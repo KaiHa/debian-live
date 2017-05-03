@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#
+# Substitute the environment variable in the given file
+#
+
+file=${1:?}
+
+eval "cat <<EOF
+$(<$file)
+EOF
+"

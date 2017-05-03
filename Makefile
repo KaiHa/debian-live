@@ -1,6 +1,10 @@
 tmp_dir := ./.build.tmp
+gsettings_script := config/includes.chroot/lib/live/bin/gnome-settings.sh
 
 build:
+	. ./wlan.password \
+	&& ./envsubst $(gsettings_script).template > $(gsettings_script)
+	chmod 755 $(gsettings_script)
 	lb config
 	sudo lb build
 
@@ -47,3 +51,4 @@ clean:
 	rm -rf live-image-*.hybrid.iso
 	rm -rf live-image-*.hybrid.iso.zsync
 	rm -rf live-image-*.packages
+	rm -rf config/includes.chroot/lib/live/bin/gnome-settings.sh
