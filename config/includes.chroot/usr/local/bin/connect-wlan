@@ -1,0 +1,3 @@
+#!/bin/sh
+
+nmcli dev wifi connect "SusiSorglos" password "$(gpg2 --decrypt /etc/wlan.password.gpg)"
