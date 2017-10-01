@@ -2,6 +2,7 @@
 set -e
 
 iso=${1:?iso argument missing}
+cmd=${2:-bash}
 
 mntdir=$(mktemp -d)
 tmpdir=$(mktemp -d)
@@ -25,9 +26,9 @@ onexit()
 
 trap onexit EXIT
 
-echo "Dropping you into a shell"
+echo "Executing $cmd..."
 ( cd $tmpdir
-  bash
+  eval $cmd
 )
 
 echo "Replacing filesystem.squashfs..."
