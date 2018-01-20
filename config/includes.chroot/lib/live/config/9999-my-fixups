@@ -2,6 +2,7 @@
 
 set -e
 
-chown -R user:user /home/user/ && true
+chown -R user:user /home/user/
+chmod -R go-rwx /home/user/.gnupg
 rm /etc/xdg/autostart/gnome-keyring-gpg.desktop
 rm /etc/xdg/autostart/gnome-keyring-ssh.desktop

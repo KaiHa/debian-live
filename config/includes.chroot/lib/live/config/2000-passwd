@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo
+echo "live-config hook: passwd"
+
+echo 'user:$6$FWI9kFlZdgY$6c1Eun2CyPTuSWReqYI1E9vKdbqOvKcv36PA1.uvxKYclFahsInF0H9Bz8iMb0D.pkFOzF5QdUdTQdtwLOEUO/' | chpasswd -e
