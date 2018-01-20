@@ -1,6 +1,7 @@
 aptitude
 bash-completion
 bridge-utils
+dirmngr
 emacs24
 emacs-goodies-el
 git
