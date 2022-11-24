@@ -2,7 +2,7 @@ tmp_dir := ./.build.tmp
 
 build:
 	lb config
-	sudo lb build
+	lb build
 
 # If it should go fast you can build the image in a tmpfs partition. This will
 # use lots of memory. You have been warned!
