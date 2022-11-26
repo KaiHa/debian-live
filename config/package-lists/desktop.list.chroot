@@ -1,7 +1,6 @@
 task-gnome-desktop
 
 plymouth
-plymouth-x11
+# plymouth-x11
 
-#gstreamer-vaapi
 i965-va-driver
