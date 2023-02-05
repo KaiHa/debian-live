@@ -7,4 +7,6 @@ chmod -R go-rwx /home/user/.gnupg
 echo "Hidden=true" >> /etc/xdg/autostart/gnome-keyring-gpg.desktop
 echo "Hidden=true" >> /etc/xdg/autostart/gnome-keyring-ssh.desktop
 
+usermod -aG dialout user
+
 logger "9999-my-fixups finished"
