@@ -12,7 +12,7 @@
 
 * Building
 #+caption: Mount workspace
-#+begin_src bash :dir /sudo::
+#+begin_src bash :dir /sudo:: :results silent
   mount -o bind /home/kai/sw/my/debian-live/ /var/lib/machines/debian-stable/build && echo DONE
 #+end_src
 
@@ -32,4 +32,11 @@
 #+begin_src tmux
   PATH=/usr/sbin:/sbin:$PATH
   make
+#+end_src
+
+#+begin_src bash :dir (concat "/sudo::" default-directory) :results silent
+  set -e
+  cp /boot/images/debian.iso{,.bak}
+  cp ./live-image-amd64.hybrid.iso /boot/images/debian.iso
+  echo DONE
 #+end_src
