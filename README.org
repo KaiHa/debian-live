@@ -35,7 +35,7 @@
 #+caption: Build the iso image
 #+begin_src tmux :session default:debian-container
   PATH=/usr/sbin:/sbin:$PATH
-  make
+  make fast-build
 #+end_src
 
 #+begin_src bash :dir (concat "/sudo::" default-directory) :results silent
