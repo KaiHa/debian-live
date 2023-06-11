@@ -5,8 +5,8 @@ set -e
 lb config noauto                               \
     --architectures amd64                      \
     --linux-flavours amd64                     \
-    --distribution bullseye                    \
-    --archive-areas "main contrib non-free"    \
+    --distribution bookworm                    \
+    --archive-areas "main contrib non-free non-free-firmware" \
     --bootappend-live "boot=live persistence"  \
     --clean                                    \
     --firmware-chroot true                     \

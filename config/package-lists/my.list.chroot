@@ -5,6 +5,8 @@ bridge-utils
 dirmngr
 emacs
 emacs-goodies-el
+firmware-linux-free
+firmware-linux-nonfree
 git
 gnupg-agent
 gnupg2
@@ -19,7 +21,6 @@ nitrokey-app
 pass
 pcscd
 scdaemon
-stalonetray
 tree
 vim
 webext-ublock-origin-firefox
