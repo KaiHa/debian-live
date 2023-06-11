@@ -7,7 +7,7 @@
 
 #+caption: =/etc/live/build.conf= in the Debian container
 #+begin_src conf :tangle /var/lib/machines/debian-stable/etc/live/build.conf
-  LB_MIRROR_BOOTSTRAP="http://127.0.0.1:3142/deb.debian.org/debian"
+  # LB_MIRROR_BOOTSTRAP="http://127.0.0.1:3142/deb.debian.org/debian"
 #+end_src
 
 * Building
@@ -16,20 +16,24 @@
   mount -o bind /home/kai/sw/my/debian-live/ /var/lib/machines/debian-stable/build && echo DONE
 #+end_src
 
-#+caption: Spawn apt-cache and Debian container
-#+begin_src tmux
-  apt-cacher-ng cachedir=/var/cache/apt-cacher-ng
+#+caption: Start apt-cache
+#+begin_src tmux :session default:apt-cacher-ng
+  sudo apt-cacher-ng cachedir=/var/cache/apt-cacher-ng
+#+end_src
+
+#+caption: Spawn Debian container
+#+begin_src tmux :session default:debian-container
   sudo systemd-nspawn -M debian-stable
 #+end_src
 
 #+caption: Clean workspace
-#+begin_src tmux
+#+begin_src tmux :session default:debian-container
   cd /build
   git clean -xdf
 #+end_src
 
 #+caption: Build the iso image
-#+begin_src tmux
+#+begin_src tmux :session default:debian-container
   PATH=/usr/sbin:/sbin:$PATH
   make
 #+end_src
