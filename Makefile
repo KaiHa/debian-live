@@ -8,7 +8,7 @@ build:
 # use lots of memory. You have been warned!
 fast-build:
 	mkdir -p $(tmp_dir)
-	mount -t tmpfs -o size=12G  tmpfs $(tmp_dir)
+	mount -t tmpfs -o size=16G  tmpfs $(tmp_dir)
 	cp -r * $(tmp_dir)
 	cd $(tmp_dir) && lb config && lb build
 	-cp $(tmp_dir)/build.log .
