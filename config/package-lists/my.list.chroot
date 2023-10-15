@@ -1,7 +1,9 @@
+android-sdk-platform-tools-common
 aptitude
 arduino
 bash-completion
 bridge-utils
+chromium
 dirmngr
 emacs
 emacs-goodies-el
