@@ -5,7 +5,7 @@ set -e
 lb config noauto                               \
     --architectures amd64                      \
     --linux-flavours amd64                     \
-    --distribution bookworm                    \
+    --distribution trixie                      \
     --archive-areas "main contrib non-free non-free-firmware" \
     --bootappend-live "boot=live persistence"  \
     --clean                                    \
